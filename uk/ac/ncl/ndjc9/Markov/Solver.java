@@ -21,7 +21,7 @@ public class Solver
 	public Solver (double[][] transitionMatrix)
 	{
 		//convert the array of doubles into a JAMA matrix
-        QMatrix = new Matrix(transitionMatrix);
+		QMatrix = new Matrix(transitionMatrix);
     
 	}	
 /**
@@ -30,40 +30,39 @@ public class Solver
  */
 	public double solve()
 	{
-        int height = QMatrix.getRowDimension();
-        int width = QMatrix.getColumnDimension();
+	        int height = QMatrix.getRowDimension();
+        	int width = QMatrix.getColumnDimension();
         
-        //All transition matrices must be square as they're from and to the same set of states
-        //Throw an exception if it isn't
-        if (height !=width)
-        {
-        	throw new IllegalArgumentException("Transition matrix is not square");
-        }
+        	//All transition matrices must be square as they're from and to the same set of states
+        	//Throw an exception if it isn't
+        	if (height !=width)
+        	{
+        		throw new IllegalArgumentException("Transition matrix is not square");
+        	}
         
-        //generate an array of the same size filled with zeros 
-        double[][] identity = new double[height][width];
-        //put 1s in the middle diagonal to produce the identity matrix
-        for (int i=0;i<height;i++)
-        {
-        	identity[i][i] = 1.0;
+	        //generate an array of the same size filled with zeros 
+        	double[][] identity = new double[height][width];
+        	//put 1s in the middle diagonal to produce the identity matrix
+        	for (int i=0;i<height;i++)
+        	{
+        		identity[i][i] = 1.0;
         	
-        }
+        	}
      
-        //convert the array of doubles into a JAMA matrix
-        Matrix IMatrix = new Matrix(identity);
-        //subtract the transition matrix from the identity matrix
-        Matrix NMatrix = IMatrix.minus(QMatrix);
-        //take the inverse of the result
-        Matrix invMatrix = NMatrix.inverse();
+        	//convert the array of doubles into a JAMA matrix
+        	Matrix IMatrix = new Matrix(identity);
+        	//subtract the transition matrix from the identity matrix
+        	Matrix NMatrix = IMatrix.minus(QMatrix);
+        	//take the inverse of the result
+        	Matrix invMatrix = NMatrix.inverse();
         
-        double expectedValue = 0.0;
-        //the expected value is the sum of the top row of the inverse matrix, so add them
-        for (int i =0; i < width; i++)
-        {
-        	expectedValue = expectedValue + invMatrix.get(0,i);
-        	
-        }
-        return expectedValue;
+        	double expectedValue = 0.0;
+        	//the expected value is the sum of the top row of the inverse matrix, so add them
+        	for (int i =0; i < width; i++)
+        	{
+        		expectedValue = expectedValue + invMatrix.get(0,i);
+        	}
+        	return expectedValue;
 	}
 
 }
